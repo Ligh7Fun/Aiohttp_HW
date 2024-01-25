@@ -26,8 +26,21 @@ docker-compose -v && docker -v
 ```
 docker-compose up -d
 ```
-Проверить контейнеры
+Проверить контейнер
 ```
 docker ps
 ```
+Установить пакеты и создать виртуальное окружение
+```
+apt install -y python3.10-venv && python3 -m venv env
+```
+Активировать его и установить зависимости
+```
+source env/bin/activate && pip install -r requirements.txt
+```
+Запустить сервер
+```
+python server.py
+```
+
 Использовать запросы из clients.http заменив адрес сервера
