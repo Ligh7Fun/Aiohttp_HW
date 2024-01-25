@@ -1,11 +1,10 @@
 import datetime
 import os
-import uuid
 
 from dotenv import load_dotenv
-from sqlalchemy import DateTime, ForeignKey, String, func
+from sqlalchemy import DateTime, String, func
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 load_dotenv()
 
@@ -28,62 +27,6 @@ class Base(AsyncAttrs, DeclarativeBase):
     pass
 
 
-class User(Base):
-    __tablename__ = "aiohttp_users"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(
-        String(250),
-        unique=True,
-        index=True,
-        nullable=False,
-    )
-    password: Mapped[str] = mapped_column(
-        String(100),
-        nullable=False,
-    )
-    registration_time: Mapped[datetime.datetime] = mapped_column(
-        DateTime(),
-        server_default=func.now(),
-    )
-    tokens = relationship("Token", back_populates="user")
-    ads = relationship("Ads", back_populates="owner")
-
-    @property
-    def dict(self):
-        return {
-            "id": self.id,
-            "email": self.email,
-            "registration_time": int(self.registration_time.timestamp()),
-        }
-
-
-class Token(Base):
-    __tablename__ = "aiohttp_tokens"
-
-    id: Mapped[str] = mapped_column(
-        String(36),
-        primary_key=True,
-        default=str(
-            uuid.uuid4(),
-        ),
-    )
-    creation_time: Mapped[datetime.datetime] = mapped_column(
-        DateTime(),
-        server_default=func.now(),
-    )
-    user_id: Mapped[int] = mapped_column(
-        ForeignKey("aiohttp_users.id", ondelete="CASCADE")
-    )
-    user = relationship("User", back_populates="tokens")
-
-    @property
-    def dict(self):
-        return {
-            "id": self.id,
-        }
-
-
 class Ads(Base):
     __tablename__ = "aiohttp_ads"
 
@@ -103,11 +46,6 @@ class Ads(Base):
         String(100),
         nullable=False,
     )
-    owner_id: Mapped[int] = mapped_column(
-        ForeignKey("aiohttp_users.id", ondelete="CASCADE")
-    )
-
-    owner = relationship("User", back_populates="ads")
 
     @property
     def dict(self):
@@ -117,7 +55,6 @@ class Ads(Base):
             "description": self.description,
             "created_at": int(self.created_at.timestamp()),
             "owner": self.owner,
-            "owner_id": self.owner_id,
         }
 
 
