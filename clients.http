@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:8080
+
+# создание объявления
+POST {{baseUrl}}/ads
+Content-Type: application/json
+
+{
+    "title": "ads2",
+    "description": "ads text 2",
+    "owner": "user2"
+}
+
+###
+
+# получение 1 объявления
+GET {{baseUrl}}/ads/2
+Content-Type: application/json
+
+###
+
+# удалить 1 объявление
+DELETE  {{baseUrl}}/ads/2
+Content-Type: application/json
+
+###
+
+# обновить 1 объявление
+PATCH  {{baseUrl}}/ads/2
+Content-Type: application/json
+
+{
+    "title": "ads2222"
+}
+
+###

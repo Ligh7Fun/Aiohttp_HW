@@ -3,7 +3,7 @@ import json
 from aiohttp import web
 from sqlalchemy.exc import IntegrityError
 
-from models import Session, Ads
+from models import Ads, Session
 
 
 def get_http_error(error_class, message: str):

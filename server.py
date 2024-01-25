@@ -1,6 +1,6 @@
 from aiohttp import web
 
-from models import Session, Ads, engine, init_orm
+from models import Ads, Session, engine, init_orm
 from utils import add_ads, get_ads_by_id
 
 app = web.Application()
@@ -73,4 +73,4 @@ app.add_routes(
 )
 
 if __name__ == "__main__":
-    web.run_app(app, port=8080)
+    web.run_app(app, host="0.0.0.0", port=8080)
