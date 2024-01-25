@@ -1,19 +1,19 @@
 import requests
 
 # create user
-# response = requests.post(
-#     "http://127.0.0.1:8080/user",
-#     json={"email": "user1@mail.ru", "password": "12345"},
-#     headers={"Content-Type": "application/json"},
-#     timeout=(10, 10),
-# )
-
-# get by user id
-response = requests.get(
-    "http://127.0.0.1:8080/user/1",
+response = requests.post(
+    "http://127.0.0.1:8080/user/login",
+    json={"email": "user1@mail.ru", "password": "12345"},
     headers={"Content-Type": "application/json"},
     timeout=(10, 10),
 )
+
+# get by user id
+# response = requests.get(
+#     "http://127.0.0.1:8080/user/2",
+#     headers={"Content-Type": "application/json"},
+#     timeout=(10, 10),
+# )
 
 # patch user by id
 # response = requests.patch(

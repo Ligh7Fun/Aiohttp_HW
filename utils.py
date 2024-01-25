@@ -28,9 +28,14 @@ async def add_user(session: Session, user: User):
         await session.commit()
     except IntegrityError:
         raise get_http_error(
-            web.HTTPConflict, f"User with name {user.name} already exists"
+            web.HTTPConflict, f"User with email {user.email} already exists"
         )
     return user
+
+
+def create_token(user_id: int):
+    token = str(uuid.uuid4())  # Пример: используем UUID для уникального токена
+    return token
 
 
 async def hash_password(password: str):

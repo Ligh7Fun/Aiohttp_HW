@@ -44,9 +44,12 @@ class UserView(web.View):
 
     async def post(self) -> None:
         json_data = await self.request.json()
-        user = User(**json_data)
-        await add_user(self.session, user)
-        return web.json_response({"id": user.id})
+        if self.request.path == "/user/create":
+            user = User(**json_data)
+            await add_user(self.session, user)
+            return web.json_response({"id": user.id})
+        elif self.request.path == "/user/login":
+            return web.json_response({"status": "ok"})
 
     async def patch(self) -> None:
         json_data = await self.request.json()
@@ -68,7 +71,8 @@ app.add_routes(
         web.get("/user/{user_id:\d+}", UserView),
         web.patch("/user/{user_id:\d+}", UserView),
         web.delete("/user/{user_id:\d+}", UserView),
-        web.post("/user", UserView),
+        web.post("/user/create", UserView),
+        web.post("/user/login", UserView),
     ]
 )
 
